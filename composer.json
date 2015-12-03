@@ -1,0 +1,21 @@
+{
+    "name": "carlosrivera/NanoRouter",
+    "description": "Quick and dirt PHP router for testing.",
+    "license": "MIT",
+    "keywords": ["router"],
+    "authors": [
+        {
+            "name": "Carlos Rivera",
+            "email": "me@carlosrivera.im"
+        }
+    ],
+    "require": {},
+    "require-dev": {
+        "phpunit/phpunit": "4.0.*"
+    },
+    "autoload": {
+        "psr-4": {
+            "Nano\\Router\\": "src"
+        }
+    }
+}

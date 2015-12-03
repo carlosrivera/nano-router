@@ -21,14 +21,15 @@ class Router
         $this->addRoute("GET|POST|PUT|DELETE|OPTIONS|HEAD", $route, $callback);
     }
 
-    function dispatch() 
+    function dispatch($route=null, $method=null) 
     { 
-        $path = isset($_SERVER['PATH_INFO']) ? strtolower($_SERVER['PATH_INFO']) : '/';
+        $path = ($route != null) ? $route : (isset($_SERVER['PATH_INFO']) ? strtolower($_SERVER['PATH_INFO']) : '/');
+        $method = ($method != null) ? $method : (isset($_SERVER['REQUEST_METHOD']) ? $_SERVER['REQUEST_METHOD'] : 'GET');
 
         foreach ($this->routes as $key => $value) {
             if (preg_match("~^(?:". $key . ")$~x", $path, $matches)) {
 
-                if (preg_match("/".$_SERVER['REQUEST_METHOD']."/", $value['methods'])) {
+                if (preg_match("/".$method."/", $value['methods'])) {
                     call_user_func_array($this->routes[$key]['callback'], array_slice($matches, 1));
 
                     return true;

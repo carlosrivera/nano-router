@@ -6,7 +6,7 @@ Simple router made to do quick and dirty test over PHP (primary API's developed 
 ## How to use it
 
 ``` php
-// Load the router
+// Load and create the router
 require 'src/Router.php';
 
 use \Nano\Router\Router;
@@ -25,7 +25,7 @@ $router->get('/dynamic/<slug>/<id>', function($slug, $id) {
 
 // finally, just process the current route
 $router->dispatch();
-``` php
+```
 
 ## Pretty URL's 
 

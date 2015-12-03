@@ -1,6 +1,6 @@
 <?php
 
-include 'src/Router.php';
+include 'vendor/autoload.php';
 
 use \Nano\Router\Router;
 
