@@ -1,5 +1,5 @@
 {
-    "name": "carlosrivera/NanoRouter",
+    "name": "carlosrivera/nano-router",
     "description": "Quick and dirt PHP router for testing.",
     "license": "MIT",
     "keywords": ["router"],

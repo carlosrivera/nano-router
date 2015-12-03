@@ -8,7 +8,7 @@ Simple router made to do quick and dirty test over PHP (primary API's developed 
 
 ``` php
 // Load and create the router
-require 'src/Router.php';
+include 'vendor/autoload.php';
 
 use \Nano\Router\Router;
 
