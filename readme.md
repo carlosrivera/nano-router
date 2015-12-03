@@ -1,5 +1,6 @@
 NanoRouter
 ====
+[![Build Status](https://travis-ci.org/carlosrivera/NanoRouter.svg)](https://travis-ci.org/carlosrivera/NanoRouter)
 
 Simple router made to do quick and dirty test over PHP (primary API's developed on other platforms), not intented to be a production or complex framework but as a way to test simple stuff in an scenario with zero configurations.
 
