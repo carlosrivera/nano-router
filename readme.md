@@ -28,6 +28,24 @@ $router->get('/dynamic/<slug>/<id>', function($slug, $id) {
 $router->dispatch();
 ```
 
+### Hooks
+You can also add hook closures before proccesing the actual call, for example to validate a session or translate according the request.
+
+``` php
+$router->hooks->beforeRequest->add(function() {
+	echo "before request firts hook \n";
+});
+
+$router->hooks->beforeRequest->add(function() {
+	echo "before request second hook \n";
+});
+
+$router->hooks->afterRequest->add(function() {
+	echo "after request hook \n";
+});
+```
+
+
 ## Pretty URL's 
 
 The main purpose of this library was to be able to route to pretty url's, to achieve this you can redirect all your request to your main file, or write the path after you script name `localhost/index.php/myroute/path`:

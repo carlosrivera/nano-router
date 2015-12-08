@@ -1,10 +1,18 @@
 <?php
 namespace Nano\Router;
 
+use Nano\Router\Hooks\HookManager;
+
 class Router 
 {
     private $route_wildcard = "/\<([^\>]+)\>/i";
     private $route_regex = "([^/]+)";
+    public $hooks;
+
+    public function __construct()
+    {
+        $this->hooks = new HookManager();
+    } 
 
     function get($route, callable $callback) 
     {
@@ -23,23 +31,7 @@ class Router
 
     function dispatch($route=null, $method=null) 
     { 
-        $path = ($route != null) ? $route : (isset($_SERVER['PATH_INFO']) ? strtolower($_SERVER['PATH_INFO']) : '/');
-        $method = ($method != null) ? $method : (isset($_SERVER['REQUEST_METHOD']) ? $_SERVER['REQUEST_METHOD'] : 'GET');
-
-        foreach ($this->routes as $key => $value) {
-            if (preg_match("~^(?:". $key . ")$~x", $path, $matches)) {
-
-                if (preg_match("/".$method."/", $value['methods'])) {
-                    call_user_func_array($this->routes[$key]['callback'], array_slice($matches, 1));
-
-                    return true;
-                }
-                
-                return $this->rise405();
-            }
-        }
-
-        return $this->rise404();
+        return $this($route, $method);
     }
 
     private function addRoute($methods, $route, callable $callback) 
@@ -70,5 +62,35 @@ class Router
     {
         echo "405 - Not allowed";
         http_response_code(405);
+    }
+
+    public function __invoke($route=null, $method=null)
+    {
+        $path = ($route != null) ? $route : (isset($_SERVER['PATH_INFO']) ? strtolower($_SERVER['PATH_INFO']) : '/');
+        $method = ($method != null) ? $method : (isset($_SERVER['REQUEST_METHOD']) ? $_SERVER['REQUEST_METHOD'] : 'GET');
+
+        foreach ($this->routes as $key => $value) {
+            if (preg_match("~^(?:". $key . ")$~x", $path, $matches)) {
+
+                if (preg_match("/".$method."/", $value['methods'])) {
+
+                    foreach ($this->hooks->beforeRequest->all() as $hook_key => $hook) {
+                        call_user_func_array($hook, []);
+                    }
+
+                    call_user_func_array($this->routes[$key]['callback'], array_slice($matches, 1));
+
+                    foreach ($this->hooks->afterRequest->all() as $hook_key => $hook) {
+                        call_user_func_array($hook, []);
+                    }
+
+                    return true;
+                }
+                
+                return $this->rise405();
+            }
+        }
+
+        return $this->rise404();
     }
 }
