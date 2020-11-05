@@ -4,6 +4,16 @@ NanoRouter
 
 Simple router made to do quick and dirty test over PHP (primary API's developed on other platforms), not intented to be a production or complex framework but as a way to test simple stuff in an scenario with zero configurations.
 
+## Installation
+
+#### Composer
+
+You can install the nano-framework using composer:
+
+```shell
+composer require carlosrivera/nano-router
+``` 
+
 ## How to use it
 
 ``` php
@@ -46,7 +56,7 @@ $router->hooks->afterRequest->add(function() {
 ```
 
 
-## Pretty URL's 
+## Pretty URL's
 
 The main purpose of this library was to be able to route to pretty url's, to achieve this you can redirect all your request to your main file, or write the path after you script name `localhost/index.php/myroute/path`:
 
@@ -62,7 +72,7 @@ RewriteRule .* index.php [L,QSA]
 
 ## MIT Licence
 
-Copyright (c) 2015 
+Copyright (c) 2015
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -81,5 +91,3 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
-
-

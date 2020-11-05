@@ -2,42 +2,45 @@
 namespace Nano\Router;
 
 use Nano\Router\Hooks\HookManager;
+use function http_response_code;
 
-class Router 
+
+class Router
 {
+    private $error_message;
     private $route_wildcard = "/\<([^\>]+)\>/i";
     private $route_regex = "([^/]+)";
     public $hooks;
 
-    public function __construct()
+    final public function __construct()
     {
         $this->hooks = new HookManager();
-    } 
+    }
 
-    function get($route, callable $callback) 
+    public function get(string $route, callable $callback): void
     {
         $this->addRoute("GET", $route, $callback);
     }
 
-    function post($route, callable $callback) 
+    public function post(string $route, callable $callback): void
     {
         $this->addRoute("POST", $route, $callback);
     }
 
-    function any($route, callable $callback) 
+    public function any(string $route, callable $callback): void
     {
         $this->addRoute("GET|POST|PUT|DELETE|OPTIONS|HEAD", $route, $callback);
     }
 
-    function dispatch($route=null, $method=null) 
-    { 
+    public function dispatch(string $route=null, string $method=null): bool
+    {
         return $this($route, $method);
     }
 
-    private function addRoute($methods, $route, callable $callback) 
+    private function addRoute(string $methods, string $route, callable $callback): void
     {
         $regex = preg_replace($this->route_wildcard, $this->route_regex, strtolower($route));
-    
+
         /*if (preg_match_all($this->route_wildcard, $route, $matches)) {
             foreach ($matches[0] as $key => $value) {
                 $regex = str_replace($value, "([^/]+)", $regex);
@@ -52,19 +55,23 @@ class Router
         ];
     }
 
-    private function rise404() 
+    private function raise404(): bool
     {
-        echo "404 - Not found";
         http_response_code(404);
+        echo($this->error_message);
+
+        return false;
     }
 
-    private function rise405() 
+    private function raise405(): bool
     {
-        echo "405 - Not allowed";
         http_response_code(405);
+        echo($this->error_message);
+
+        return false;
     }
 
-    public function __invoke($route=null, $method=null)
+    final public function __invoke($route=null, $method=null)
     {
         $path = ($route != null) ? $route : (isset($_SERVER['PATH_INFO']) ? strtolower($_SERVER['PATH_INFO']) : '/');
         $method = ($method != null) ? $method : (isset($_SERVER['REQUEST_METHOD']) ? $_SERVER['REQUEST_METHOD'] : 'GET');
@@ -86,11 +93,11 @@ class Router
 
                     return true;
                 }
-                
-                return $this->rise405();
+
+                return $this->raise405();
             }
         }
 
-        return $this->rise404();
+        return $this->raise404();
     }
 }

@@ -1,10 +1,11 @@
-<?php
- 
+<?php declare(strict_types=1);
+
+use PHPUnit\Framework\TestCase;
 use \Nano\Router\Router;
- 
-class NanoRouterTest extends PHPUnit_Framework_TestCase 
-{ 
-    public function testMatchRoute()
+
+final class NanoRouterTest extends TestCase
+{
+    public function testMatchRoute(): void
     {
         $router = new Router;
 
@@ -15,7 +16,7 @@ class NanoRouterTest extends PHPUnit_Framework_TestCase
         $this->assertTrue($router->dispatch('/'));
     }
 
-    public function testMatchIndexGet()
+    public function testMatchIndexGet(): void
     {
         $router = new Router;
 
@@ -26,7 +27,7 @@ class NanoRouterTest extends PHPUnit_Framework_TestCase
         $this->assertTrue($router->dispatch('/', 'GET'));
     }
 
-    public function testMatchIndexPost()
+    public function testMatchIndexPost(): void
     {
         $router = new Router;
 
@@ -34,10 +35,10 @@ class NanoRouterTest extends PHPUnit_Framework_TestCase
         	return true;
         });
 
-        $this->assertNull($router->dispatch('/', 'POST'));
+        $this->assertFalse($router->dispatch('/', 'POST'));
     }
 
-    public function testMatchDynamicSlugGet()
+    public function testMatchDynamicSlugGet(): void
     {
         $router = new Router;
 
@@ -48,7 +49,7 @@ class NanoRouterTest extends PHPUnit_Framework_TestCase
         $router->dispatch('/test', 'GET');
     }
 
-    public function testInvokeRouter()
+    public function testInvokeRouter(): void
     {
         $router = new Router;
 
@@ -60,7 +61,7 @@ class NanoRouterTest extends PHPUnit_Framework_TestCase
         $this->assertTrue($router('/'));
     }
 
-    public function testBeforeRequestHook()
+    public function testBeforeRequestHook(): void
     {
         $router = new Router;
 
@@ -77,7 +78,7 @@ class NanoRouterTest extends PHPUnit_Framework_TestCase
         $router('/');
     }
 
-    public function testBeforeRequestHooks()
+    public function testBeforeRequestHooks(): void
     {
         $router = new Router;
 
@@ -88,16 +89,16 @@ class NanoRouterTest extends PHPUnit_Framework_TestCase
             $this->assertEquals($closures, $target);
         });
 
-        for ($i=0; $i < $target; $i++) { 
+        for ($i=0; $i < $target; $i++) {
             $router->hooks->beforeRequest->add(function() use (&$closures) {
                 $closures++;
             });
         }
-        
+
         $router('/');
     }
 
-    public function testAfterRequestHook()
+    public function testAfterRequestHook(): void
     {
         $router = new Router;
 

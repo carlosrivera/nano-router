@@ -9,9 +9,10 @@
             "email": "me@carlosrivera.im"
         }
     ],
-    "require": {},
+    "require": {
+    },
     "require-dev": {
-        "phpunit/phpunit": "4.0.*"
+        "phpunit/phpunit": "9.0.*"
     },
     "autoload": {
         "psr-4": {
