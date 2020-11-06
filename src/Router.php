@@ -12,7 +12,7 @@ class Router
     private $route_regex = "([^/]+)";
     public $hooks;
 
-    final public function __construct()
+    public function __construct()
     {
         $this->hooks = new HookManager();
     }

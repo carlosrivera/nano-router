@@ -4,8 +4,8 @@ namespace Nano\Router\Hooks;
 class HookManager
 {
     private $data = [];
-    private $beforeRequest;
-    private $afterRequest;
+    public $beforeRequest;
+    public $afterRequest;
 
     public function &__get($key)
     {
