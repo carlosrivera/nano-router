@@ -10,7 +10,7 @@ final class NanoRouterTest extends TestCase
         $router = new Router;
 
         $router->any('/', function () {
-        	return true;
+            return true;
         });
 
         $this->assertTrue($router->dispatch('/'));
@@ -21,7 +21,7 @@ final class NanoRouterTest extends TestCase
         $router = new Router;
 
         $router->get('/', function () {
-        	return true;
+            return true;
         });
 
         $this->assertTrue($router->dispatch('/', 'GET'));
@@ -32,7 +32,7 @@ final class NanoRouterTest extends TestCase
         $router = new Router;
 
         $router->get('/', function () {
-        	return true;
+            return true;
         });
 
         $this->assertFalse($router->dispatch('/', 'POST'));
@@ -43,7 +43,7 @@ final class NanoRouterTest extends TestCase
         $router = new Router;
 
         $router->get('/<slug>', function ($slug) {
-        	$this->assertEquals($slug, 'test');
+            $this->assertEquals($slug, 'test');
         });
 
         $router->dispatch('/test', 'GET');
@@ -71,7 +71,7 @@ final class NanoRouterTest extends TestCase
             $this->assertEquals($closures, 1);
         });
 
-        $router->hooks->beforeRequest->add(function() use (&$closures) {
+        $router->hooks->beforeRequest->add(function () use (&$closures) {
             $closures++;
         });
 
@@ -90,7 +90,7 @@ final class NanoRouterTest extends TestCase
         });
 
         for ($i=0; $i < $target; $i++) {
-            $router->hooks->beforeRequest->add(function() use (&$closures) {
+            $router->hooks->beforeRequest->add(function () use (&$closures) {
                 $closures++;
             });
         }
@@ -108,11 +108,10 @@ final class NanoRouterTest extends TestCase
             $closures++;
         });
 
-        $router->hooks->afterRequest->add(function() use (&$closures) {
+        $router->hooks->afterRequest->add(function () use (&$closures) {
             $this->assertEquals($closures, 1);
         });
 
         $router('/');
     }
-
 }

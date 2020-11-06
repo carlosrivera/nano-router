@@ -4,9 +4,9 @@ namespace Nano\Router;
 use Nano\Router\Hooks\HookManager;
 use function http_response_code;
 
-
 class Router
 {
+    private $routes;
     private $error_message;
     private $route_wildcard = "/\<([^\>]+)\>/i";
     private $route_regex = "([^/]+)";
@@ -78,9 +78,7 @@ class Router
 
         foreach ($this->routes as $key => $value) {
             if (preg_match("~^(?:". $key . ")$~x", $path, $matches)) {
-
                 if (preg_match("/".$method."/", $value['methods'])) {
-
                     foreach ($this->hooks->beforeRequest->all() as $hook_key => $hook) {
                         call_user_func_array($hook, []);
                     }
